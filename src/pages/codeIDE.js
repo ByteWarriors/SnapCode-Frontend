@@ -6,6 +6,7 @@ import Highlight, { defaultProps } from 'prism-react-renderer';
 import theme from 'prism-react-renderer/themes/nightOwl';
 import { Link } from 'react-router-dom';
 import '../prism.css';
+import './addCodePage';
 
 import Heading from '../components/heading';
 
@@ -31,21 +32,24 @@ const outputBox = {
     height: '59.8vh',
 };
 
-const code = `
-(function someDemo() {
-  var test = "Hello World!";
-  console.log(test);
-})();
+// const code = `
+// (function someDemo() {
+//   var test = "Hello World!";
+//   console.log(test);
+// })();
 
-return () => <App />;
-`;
+// return () => <App />;
+// `;
 
 export class codeIDE extends Component {
-    state = {
-        code: code,
-        language: 'js',
-        output: ''
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            code: this.props.receivedCode,
+            language: 'js',
+            output: ''
+        };
+    }
 
     onValueChange = code => {
         this.setState({ code });
@@ -87,7 +91,7 @@ export class codeIDE extends Component {
                     <Grid item xs>
                         <Editor
                             value={this.state.code}
-                            onValueChange={this.onValueChange}
+                            onValueChange={() => this.onValueChange(this.state.code)}
                             highlight={this.highlight}
                             padding={10}
                             style={styles.root}

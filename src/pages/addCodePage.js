@@ -1,6 +1,7 @@
 //@ts-nocheck
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 import Heading from '../components/heading';
 import Button from '../components/button';
@@ -85,8 +86,10 @@ class addCodePage extends Component {
                 {this.state.uploaded ? 
                 <>
                     <Button name="Crop Image"></Button>
-                    <Button name="Upload" click={this.fileUploadHandler}></Button>
-                    {this.state.imgEntered ? <p className="displayImgName"> {this.state.selectedFile.name} </p> : null }
+                    <Link to='/codeIDE' receivedCode={this.state.code}>
+                        <Button name="Upload" click={this.fileUploadHandler}></Button>
+                        {this.state.imgEntered ? <p className="displayImgName"> {this.state.selectedFile.name} </p> : null }
+                    </Link>
                 </>
                 : 
                 // <>
