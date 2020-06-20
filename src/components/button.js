@@ -7,7 +7,7 @@ const button = (props) => {
         border: 'none',
         padding: '20px 40px',
         width: '250px',
-        marginTop: '25%',
+        marginTop: '35%',
         marginRight:'15%',
         marginLeft:'15%',
         cursor: 'pointer',
@@ -17,6 +17,7 @@ const button = (props) => {
         fontSize: '20px',
         textAlign: 'center',
         display: 'inline-block',
+        position: 'relative'
     }
 
     const buttonAlign={

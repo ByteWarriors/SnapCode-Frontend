@@ -73,11 +73,12 @@ class addCodePage extends Component {
                     {this.state.imgEntered ? <p className="displayImgName"> {this.state.selectedFile.name} </p> : null }
                 </>
                 : 
-                <>
-                    <label className="labelStyle">Or enter the image URL: </label>
-                    <input className="inputStyle" type="text" onChange={this.handleUrl}></input>           
-                    <Button name="Submit URL" click={this.handleURLSubmit}></Button>
-                </>
+                // <>
+                //     <label className="labelStyle">Or enter the image URL: </label>
+                //     <input className="inputStyle" type="text" onChange={this.handleUrl}></input>           
+                //     <Button name="Submit URL" click={this.handleURLSubmit}></Button>
+                // </>
+                null
                 }
             </div>
         )
