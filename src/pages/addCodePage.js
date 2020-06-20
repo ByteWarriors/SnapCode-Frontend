@@ -1,5 +1,6 @@
 //@ts-nocheck
 import React, { Component } from 'react'
+import axios from 'axios';
 
 import Heading from '../components/heading';
 import Button from '../components/button';
@@ -14,6 +15,7 @@ class addCodePage extends Component {
         selectedFile: null,
         imgSrc: null,
         imgEntered: false,
+        code: ''
     }
 
     fileSelectedHandler = (event) => {
@@ -40,11 +42,24 @@ class addCodePage extends Component {
     }
 
     fileUploadHandler = () => {
-        console.log("1:",this.state.selectedFile);
+        //console.log("1:",this.state.selectedFile);
         const fd = new FormData();
         fd.append('image',this.state.selectedFile);
-        console.log(fd);
-    }
+        //console.log(fd);
+        axios.post('https://bytewarriors-snapcode.herokuapp.com/upload-image',fd)
+            .then(res => {
+                if(res.status === 200) {
+                    alert(res.data.OCRtext);
+                    console.log("Code received");
+                    this.setState({
+                        code: res.data.OCRtext,
+                    })
+                }
+            })
+            .catch(err => {
+                alert(err);
+            })
+        }
 
     handleUrl = (event) => {
         this.setState({
