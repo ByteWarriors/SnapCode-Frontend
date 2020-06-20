@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React, { Component } from 'react'
 
 import Heading from '../components/heading';
