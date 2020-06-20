@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Editor from 'react-simple-code-editor';
 import Highlight, { defaultProps } from 'prism-react-renderer';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import theme from 'prism-react-renderer/themes/nightOwl';
 import { Link } from 'react-router-dom';
 import '../prism.css';
@@ -33,7 +31,7 @@ const outputBox = {
     height: '59.8vh',
 };
 
-const exampleCode = `
+const code = `
 (function someDemo() {
   var test = "Hello World!";
   console.log(test);
@@ -43,9 +41,9 @@ return () => <App />;
 `;
 
 export class codeIDE extends Component {
-    state = { 
-        code: exampleCode, 
-        language: 'js', 
+    state = {
+        code: code,
+        language: 'js',
         output: ''
     };
 
@@ -59,7 +57,7 @@ export class codeIDE extends Component {
     };
 
     onOutputChange = () => {
-        this.setState({ output: 'rahul' })
+        this.setState({ output: 'rahul' });
     };
 
     highlight = code => (
@@ -79,15 +77,12 @@ export class codeIDE extends Component {
         return (
             <div>
                 <Heading />
-                <Select onChange={this.onLanguageChange} value={this.state.language}>
-                <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-                        <option htmlFor="language">js</option>
-                        <option htmlFor="language">py</option>
-                        <option htmlFor="language">java</option>
-                        <option htmlFor="language">cpp</option>
-                    </Select>
+                <select onChange={this.onLanguageChange} value={this.state.language}>
+                    <option htmlFor="language">js</option>
+                    <option htmlFor="language">py</option>
+                    <option htmlFor="language">java</option>
+                    <option htmlFor="language">cpp</option>
+                </select>
                 <Grid container style={style.Grid}>
                     <Grid item xs>
                         <Editor
@@ -106,11 +101,11 @@ export class codeIDE extends Component {
                     </Grid>
                 </Grid>
                 <Grid>
-                <Link to='/addCode'>
-                <button>
-                    Snap Another Code
-                </button>
-            </Link>
+                    <Link to='/addCode'>
+                        <button>
+                            Snap Another Code
+                        </button>
+                    </Link>
                 </Grid>
             </div>
         );
