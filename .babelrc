@@ -1,0 +1,10 @@
+{
+    "plugins": [
+      ["prismjs", {
+        "languages": ["javascript", "css", "html", "python", "java"],
+        "plugins": ["line-numbers", "show-language", "toolbar"],
+        "theme": "tomorrow-night",
+        "css": true
+      }]
+    ]
+  }
