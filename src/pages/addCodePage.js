@@ -50,6 +50,9 @@ class addCodePage extends Component {
                 if(res.status === 200) {
                     alert(res.data.OCRtext);
                     console.log("Code received");
+                    this.setState({
+                        code: res.data.OCRtext,
+                    })
                 }
             })
             .catch(err => {
