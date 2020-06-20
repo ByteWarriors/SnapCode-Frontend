@@ -45,10 +45,10 @@
   display: inline-block;
   position: absolute;
   margin-top: 2%;
-  margin-left: -20%;
+  margin-left: -40%;
   border: 2px dashed grey;
-  width: 87%;
-  height: 100px;
+  width: 80%;
+  height: 300px;
 }
 
 .inputfile + label {
@@ -58,7 +58,7 @@
 img{
   height:50px;
   width: 50px;
-  padding-top: 25px;
+  padding-top: 125px;
 }
 
 .label + img {
@@ -80,7 +80,7 @@ img{
 }
 
 .displayImgName {
-  margin-top: -7%;
+  margin-top: -8%;
   color: #000000;
   font-size: 20px;
   font-weight: 300;
