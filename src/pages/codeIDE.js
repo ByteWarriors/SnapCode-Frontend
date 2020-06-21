@@ -60,27 +60,32 @@ export class codeIDE extends Component {
         });
         if(this.state.language === 'C') {
             this.setState({
-                newLang: 'c'
+                newLang: 'c',
+                language: 'C'
             })
         }
-        else if(this.state.language === 'PYTHON3') {
+        else if(this.state.language === 'Python') {
             this.setState({
-                newLang: 'py'
+                newLang: 'py',
+                language: 'PYTHON3'
             })
         }
-        if(this.state.language === 'JAVA') {
+        if(this.state.language === 'Java') {
             this.setState({
-                newLang: 'java'
+                newLang: 'java',
+                language: 'JAVA'
             })
         }
-        if(this.state.language === 'JAVASCRIPT_NODE') {
+        if(this.state.language === 'JavaScript') {
             this.setState({
-                newLang: 'js'
+                newLang: 'js',
+                language: 'JAVASCRIPT_NODE'
             })
         }
-        if(this.state.language === 'CPP') {
+        if(this.state.language === 'C++') {
             this.setState({
-                newLang: 'cpp'
+                newLang: 'cpp',
+                language: 'CPP'
             })
         }
     };
@@ -93,7 +98,7 @@ export class codeIDE extends Component {
 
     onOutputChange = () => {
         console.log(this.state.code);
-        axios.post('https://bytewarriors-snapcode.herokuapp.com/run-code', {
+        axios.post('https://bytewarriors-snapcode.herokuapp.com/run-code/', {
             "source": this.state.code,
             "lang": this.state.language,
             headers: {
@@ -137,10 +142,10 @@ export class codeIDE extends Component {
                     {/* TODO - Syntax Highlighting */}
                     <select onChange={this.onLanguageChange} value={this.state.language}>
                         <option htmlFor="language">C</option>
-                        <option htmlFor="language">CPP</option>
-                        <option htmlFor="language">PYTHON3</option>
-                        <option htmlFor="language">JAVA</option>
-                        <option htmlFor="language">JAVASCRIPT_NODE</option>
+                        <option htmlFor="language">C++</option>
+                        <option htmlFor="language">Python</option>
+                        <option htmlFor="language">Java</option>
+                        <option htmlFor="language">JavaScript</option>
                     </select>
                     <Grid container style={gridStyle.Grid}>
                         <Grid item xs sm>

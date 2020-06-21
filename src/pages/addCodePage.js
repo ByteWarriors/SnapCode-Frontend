@@ -51,7 +51,6 @@ class addCodePage extends Component {
         axios.post('https://bytewarriors-snapcode.herokuapp.com/upload-image', fd)
             .then(async res => {
                 if (res.status === 200) {
-                    alert(res.data.OCRtext);
                     console.log(res.data.OCRtext);
                     console.log("Code received");
                     await this.setState({
@@ -61,7 +60,7 @@ class addCodePage extends Component {
                 }
             })
             .catch(err => {
-                alert(err);
+                console.log(err);
             });
     };
 
