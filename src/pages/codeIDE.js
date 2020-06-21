@@ -45,7 +45,8 @@ export class codeIDE extends Component {
             code: this.props.code,
             language: 'C',
             output: '',
-            back: false
+            back: false,
+            newLang: 'c',
         };
     }
 
@@ -54,7 +55,34 @@ export class codeIDE extends Component {
     };
 
     onLanguageChange = e => {
-        this.setState({ language: e.target.value });
+        this.setState({ 
+            language: e.target.value
+        });
+        if(this.state.language === 'C') {
+            this.setState({
+                newLang: 'c'
+            })
+        }
+        else if(this.state.language === 'PYTHON3') {
+            this.setState({
+                newLang: 'py'
+            })
+        }
+        if(this.state.language === 'JAVA') {
+            this.setState({
+                newLang: 'java'
+            })
+        }
+        if(this.state.language === 'JAVASCRIPT_NODE') {
+            this.setState({
+                newLang: 'js'
+            })
+        }
+        if(this.state.language === 'CPP') {
+            this.setState({
+                newLang: 'cpp'
+            })
+        }
     };
 
     handleNav = () => {
@@ -87,7 +115,7 @@ export class codeIDE extends Component {
     };
 
     highlight = code => (
-        <Highlight {...defaultProps} theme={theme} code={code} language={this.state.language}>
+        <Highlight {...defaultProps} theme={theme} code={code} language={this.state.newLang}>
             {({ className, style, tokens, getLineProps, getTokenProps }) => (
                 <React.Fragment>
                     {tokens.map((line, i) => (
