@@ -60,32 +60,27 @@ export class codeIDE extends Component {
         });
         if(this.state.language === 'C') {
             this.setState({
-                newLang: 'c',
-                language: 'C'
+                newLang: 'c'
             })
         }
-        else if(this.state.language === 'Python') {
+        else if(this.state.language === 'PYTHON3') {
             this.setState({
-                newLang: 'py',
-                language: 'PYTHON3'
+                newLang: 'py'
             })
         }
-        if(this.state.language === 'Java') {
+        if(this.state.language === 'JAVA') {
             this.setState({
-                newLang: 'java',
-                language: 'JAVA'
+                newLang: 'java'
             })
         }
-        if(this.state.language === 'JavaScript') {
+        if(this.state.language === 'JAVASCRIPT_NODE') {
             this.setState({
-                newLang: 'js',
-                language: 'JAVASCRIPT_NODE'
+                newLang: 'js'
             })
         }
-        if(this.state.language === 'C++') {
+        if(this.state.language === 'CPP') {
             this.setState({
-                newLang: 'cpp',
-                language: 'CPP'
+                newLang: 'cpp'
             })
         }
     };
@@ -142,10 +137,10 @@ export class codeIDE extends Component {
                     {/* TODO - Syntax Highlighting */}
                     <select onChange={this.onLanguageChange} value={this.state.language}>
                         <option htmlFor="language">C</option>
-                        <option htmlFor="language">C++</option>
-                        <option htmlFor="language">Python</option>
-                        <option htmlFor="language">Java</option>
-                        <option htmlFor="language">JavaScript</option>
+                        <option htmlFor="language">CPP</option>
+                        <option htmlFor="language">PYTHON3</option>
+                        <option htmlFor="language">JAVA</option>
+                        <option htmlFor="language">JAVASCRIPT_NODE</option>
                     </select>
                     <Grid container style={gridStyle.Grid}>
                         <Grid item xs sm>
@@ -162,7 +157,7 @@ export class codeIDE extends Component {
                         <Grid item xs>
                             <div style={outputBox}>
                                 <style>
-                                    text-align: center;
+                                    text-align: left;
                                 </style>
                                 {this.state.output}
                             </div>
