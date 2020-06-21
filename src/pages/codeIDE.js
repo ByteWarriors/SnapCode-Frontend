@@ -6,9 +6,9 @@ import Highlight, { defaultProps } from 'prism-react-renderer';
 import theme from 'prism-react-renderer/themes/nightOwl';
 import { Link } from 'react-router-dom';
 import '../prism.css';
-import './addCodePage';
 
 import Heading from '../components/heading';
+import axios from 'axios';
 
 const style = {
     Grid: {
@@ -32,36 +32,50 @@ const outputBox = {
     height: '59.8vh',
 };
 
-// const code = `
-// (function someDemo() {
-//   var test = "Hello World!";
-//   console.log(test);
-// })();
-
-// return () => <App />;
-// `;
+const code = `
+    Hindude L stdio.h
+    int main () 2
+    int a5;
+    int b:b;
+    printf("1d,atb);
+    3
+`
 
 export class codeIDE extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            code: this.props.receivedCode,
-            language: 'js',
-            output: ''
-        };
-    }
 
+    state = {
+        code: code,
+        language: 'C',
+        output: ''
+    };
+    
     onValueChange = code => {
         this.setState({ code });
     };
 
     onLanguageChange = e => {
         this.setState({ language: e.target.value });
-        console.log(e.target.value);
     };
 
     onOutputChange = () => {
-        this.setState({ output: 'rahul' });
+        console.log(this.state.code);
+        axios.post('https://bytewarriors-snapcode.herokuapp.com/run-code',{
+            "source": this.state.code,
+            "lang": this.state.language,
+            headers: {
+                "Content-type": "application/json",
+            },
+        })
+        .then(res => {
+            if(res.status === 200) {
+                this.setState({
+                    output: res.data.output
+                })
+            }
+        })
+        .catch(err => {
+            alert(err)
+        })
     };
 
     highlight = code => (
@@ -82,16 +96,17 @@ export class codeIDE extends Component {
             <div>
                 <Heading />
                 <select onChange={this.onLanguageChange} value={this.state.language}>
-                    <option htmlFor="language">js</option>
-                    <option htmlFor="language">py</option>
-                    <option htmlFor="language">java</option>
-                    <option htmlFor="language">cpp</option>
+                    <option htmlFor="language">C</option>
+                    <option htmlFor="language">CPP</option>
+                    <option htmlFor="language">PYTHON3</option>
+                    <option htmlFor="language">JAVA</option>
+                    <option htmlFor="language">JAVASCRIPT_NODE</option>
                 </select>
                 <Grid container style={style.Grid}>
                     <Grid item xs>
                         <Editor
                             value={this.state.code}
-                            onValueChange={() => this.onValueChange(this.state.code)}
+                            onValueChange={this.onValueChange}
                             highlight={this.highlight}
                             padding={10}
                             style={styles.root}
@@ -100,7 +115,7 @@ export class codeIDE extends Component {
                     </Grid>
                     <Grid item xs>
                         <div style={outputBox}>
-                            {this.state.output}
+                            {this.state.output} 
                         </div>
                     </Grid>
                 </Grid>

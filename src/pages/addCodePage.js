@@ -16,7 +16,7 @@ class addCodePage extends Component {
         selectedFile: null,
         imgSrc: null,
         imgEntered: false,
-        code: ''
+        code: undefined,
     }
 
     fileSelectedHandler = (event) => {
@@ -51,6 +51,7 @@ class addCodePage extends Component {
             .then(res => {
                 if(res.status === 200) {
                     alert(res.data.OCRtext);
+                    console.log(res.data.OCRtext);
                     console.log("Code received");
                     this.setState({
                         code: res.data.OCRtext,
@@ -86,10 +87,11 @@ class addCodePage extends Component {
                 {this.state.uploaded ? 
                 <>
                     <Button name="Crop Image"></Button>
-                    <Link to='/codeIDE' receivedCode={this.state.code}>
+                    <Link to="/codeIDE">
                         <Button name="Upload" click={this.fileUploadHandler}></Button>
-                        {this.state.imgEntered ? <p className="displayImgName"> {this.state.selectedFile.name} </p> : null }
                     </Link>
+                    
+                    {this.state.imgEntered ? <p className="displayImgName"> {this.state.selectedFile.name} </p> : null }
                 </>
                 : 
                 // <>
@@ -104,4 +106,4 @@ class addCodePage extends Component {
     }
 }
 
-export default addCodePage
+export default addCodePage; 
