@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Editor from 'react-simple-code-editor';
 import Highlight, { defaultProps } from 'prism-react-renderer';
+import Button from '@material-ui/core/Button';
 import theme from 'prism-react-renderer/themes/nightOwl';
 import { Link } from 'react-router-dom';
 import '../prism.css';
@@ -10,7 +11,7 @@ import './addCodePage';
 
 import Heading from '../components/heading';
 
-const style = {
+const gridStyle = {
     Grid: {
         padding: 20,
         marginTop: 10,
@@ -21,38 +22,37 @@ const style = {
 const styles = {
     root: {
         boxSizing: 'border-box',
-        height: '60vh',
+        height: '50vh',
+        width: '100%',
         fontFamily: '"Dank Mono", "Fira Code", monospace',
         ...theme.plain
     }
 };
 
 const outputBox = {
-    border: '1px solid black',
-    height: '59.8vh',
+    height: '50vh',
+    width: '100%',
+    padding: '20',
+    boxShadow: '0 4px 8px 0 rgba(0,0,0,0.3)',
 };
 
-// const code = `
-// (function someDemo() {
-//   var test = "Hello World!";
-//   console.log(test);
-// })();
+const code = `(function someDemo() {
+  var test = "Hello World!";
+  console.log(test);
+})();
 
-// return () => <App />;
-// `;
+return () => <App />;
+`;
 
 export class codeIDE extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            code: this.props.receivedCode,
-            language: 'js',
-            output: ''
-        };
-    }
+    state = {
+        code: code,
+        language: 'js',
+        output: ''
+    };
 
     onValueChange = code => {
-        this.setState({ code });
+        this.setState({code});
     };
 
     onLanguageChange = e => {
@@ -61,7 +61,7 @@ export class codeIDE extends Component {
     };
 
     onOutputChange = () => {
-        this.setState({ output: 'rahul' });
+        this.setState({ output: 'Hello World' });
     };
 
     highlight = code => (
@@ -82,21 +82,22 @@ export class codeIDE extends Component {
             <div>
                 <Heading />
                 <select onChange={this.onLanguageChange} value={this.state.language}>
-                    <option htmlFor="language">js</option>
-                    <option htmlFor="language">py</option>
-                    <option htmlFor="language">java</option>
-                    <option htmlFor="language">cpp</option>
+                    <option htmlFor="language" value="js">JavaScript</option>
+                    <option htmlFor="language" value="py">Python</option>
+                    <option htmlFor="language" value="java">Java</option>
+                    <option htmlFor="language" value="cpp">C++</option>
                 </select>
-                <Grid container style={style.Grid}>
-                    <Grid item xs>
+                <Grid container style={gridStyle.Grid}>
+                    <Grid item xs sm>
                         <Editor
                             value={this.state.code}
-                            onValueChange={() => this.onValueChange(this.state.code)}
+                            onValueChange={this.onValueChange}
                             highlight={this.highlight}
-                            padding={10}
+                            padding={20}
                             style={styles.root}
                         />
-                        <button onClick={this.onOutputChange}>Execute!</button>
+                        <br />
+                        <Button variant="contained" onClick={this.onOutputChange}>Execute</Button>
                     </Grid>
                     <Grid item xs>
                         <div style={outputBox}>
@@ -105,11 +106,11 @@ export class codeIDE extends Component {
                     </Grid>
                 </Grid>
                 <Grid>
-                    <Link to='/addCode'>
-                        <button>
-                            Snap Another Code
-                        </button>
-                    </Link>
+                    <Grid item xs>
+                        <Link to='/addCode'>
+                            <button className="buttonStyle">Snap Another Code!</button>
+                        </Link>  
+                    </Grid>
                 </Grid>
             </div>
         );

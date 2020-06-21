@@ -1,10 +1,10 @@
 //@ts-nocheck
 import React, { Component } from 'react';
 import axios from 'axios';
+import Grid from '@material-ui/core/Grid';
 import { Link } from 'react-router-dom';
 
 import Heading from '../components/heading';
-import Button from '../components/button';
 
 import '../assets/addCodePage.css';
 import FileImage from '../assets/images/file-image-regular.svg';
@@ -78,17 +78,19 @@ class addCodePage extends Component {
         return (
             <div>
                 <Heading />
-                <p className="paraStyle">Drop an image or click to browse</p>
-                
-                <input type="file" name="file" id="file" className="inputfile" onChange={this.fileSelectedHandler}/>
-                {this.state.uploaded ? <img className="imageSelected" src={this.state.imgSrc} alt="selectedImage" /> :<label htmlFor="file"><img src={FileImage} alt="fileimage"></img></label> } 
-                
-                {this.state.uploaded ? 
+                <Grid container>
+                    <Grid item xs>Drop an image or click to browse</Grid>
+                </Grid>
+                <Grid container>
+                    <Grid item xs>
+                    <input type="file" name="file" id="file" className="inputfile" onChange={this.fileSelectedHandler}/>
+                    {this.state.uploaded ? <img className="imageSelected" src={this.state.imgSrc} alt="selectedImage" /> :<label htmlFor="file"><img src={FileImage} alt="fileimage"></img></label> } 
+                    {this.state.uploaded ? 
                 <>
-                    <Button name="Crop Image"></Button>
+                    {this.state.imgEntered ? <p className="displayImgName"> {this.state.selectedFile.name} </p> : null }
+                    <button className="buttonStyle">Crop Image</button>
                     <Link to='/codeIDE' receivedCode={this.state.code}>
-                        <Button name="Upload" click={this.fileUploadHandler}></Button>
-                        {this.state.imgEntered ? <p className="displayImgName"> {this.state.selectedFile.name} </p> : null }
+                        <button className="buttonStyle" click={this.fileUploadHandler}>Upload</button>
                     </Link>
                 </>
                 : 
@@ -99,6 +101,8 @@ class addCodePage extends Component {
                 // </>
                 null
                 }
+                    </Grid>
+                </Grid>
             </div>
         )
     }

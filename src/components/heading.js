@@ -3,7 +3,7 @@ import React from 'react'
 const heading = () => {
 
     const headingStyle = {
-        width: '100%',
+        width: 'auto',
         marginTop: '-0.01%',
         paddingTop: '25px',
         paddingBottom: '30px',

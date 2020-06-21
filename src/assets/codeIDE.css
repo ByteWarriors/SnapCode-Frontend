@@ -1,0 +1,18 @@
+.buttonStyle {
+    /* Button Style */
+    background-color: #483D53;
+    border: none;
+    border-radius: 1rem;
+    width: fit-content;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    /* Text Properties */
+    color: #FFFFFF;
+    text-decoration: none;
+    letter-spacing: 2px;
+    font-size: 15px;
+    /* Center Element */
+    max-width: 100%;
+    max-height: 100%;
+}
+
