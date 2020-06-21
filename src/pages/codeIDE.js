@@ -156,6 +156,9 @@ export class codeIDE extends Component {
                         </Grid>
                         <Grid item xs>
                             <div style={outputBox}>
+                                <style>
+                                    text-align: center;
+                                </style>
                                 {this.state.output}
                             </div>
                         </Grid>
