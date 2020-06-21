@@ -44,14 +44,11 @@ class addCodePage extends Component {
     };
 
     fileUploadHandler = () => {
-        //console.log("1:",this.state.selectedFile);
         const fd = new FormData();
         fd.append('image', this.state.selectedFile);
-        //console.log(fd);
         axios.post('https://bytewarriors-snapcode.herokuapp.com/upload-image', fd)
             .then(async res => {
                 if (res.status === 200) {
-                    alert(res.data.OCRtext);
                     console.log(res.data.OCRtext);
                     console.log("Code received");
                     await this.setState({
