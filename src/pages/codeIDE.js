@@ -5,11 +5,11 @@ import Editor from 'react-simple-code-editor';
 import Highlight, { defaultProps } from 'prism-react-renderer';
 import Button from '@material-ui/core/Button';
 import theme from 'prism-react-renderer/themes/nightOwl';
-import { Link } from 'react-router-dom';
 import '../prism.css';
-import './addCodePage';
 
+import CodePage from './addCodePage';
 import Heading from '../components/heading';
+import axios from 'axios';
 
 const gridStyle = {
     Grid: {
@@ -36,32 +36,54 @@ const outputBox = {
     boxShadow: '0 4px 8px 0 rgba(0,0,0,0.3)',
 };
 
-const code = `(function someDemo() {
-  var test = "Hello World!";
-  console.log(test);
-})();
-
-return () => <App />;
-`;
-
 export class codeIDE extends Component {
-    state = {
-        code: code,
-        language: 'js',
-        output: ''
-    };
+
+    constructor(props) {
+        super(props);
+        console.log(this.props);
+        this.state = {
+            code: this.props.code,
+            language: 'C',
+            output: '',
+            back: false
+        };
+    }
 
     onValueChange = code => {
-        this.setState({code});
+        this.setState({ code });
     };
 
     onLanguageChange = e => {
         this.setState({ language: e.target.value });
-        console.log(e.target.value);
+    };
+
+    handleNav = () => {
+        this.setState({
+            back: true
+        });
     };
 
     onOutputChange = () => {
-        this.setState({ output: 'Hello World' });
+        console.log(this.state.code);
+        axios.post('https://bytewarriors-snapcode.herokuapp.com/run-code', {
+            "source": this.state.code,
+            "lang": this.state.language,
+            headers: {
+                "Content-type": "application/json",
+            },
+        })
+            .then(res => {
+                console.log("x", res.data);
+                if (res.status === 200) {
+                    this.setState({
+                        output: res.data.output
+                    });
+                } else if (res.status === 201) {
+                    this.setState({
+                        output: res.data.compile_status
+                    });
+                }
+            });
     };
 
     highlight = code => (
@@ -78,42 +100,46 @@ export class codeIDE extends Component {
         </Highlight>
     );
     render() {
-        return (
-            <div>
-                <Heading />
-                <select onChange={this.onLanguageChange} value={this.state.language}>
-                    <option htmlFor="language" value="js">JavaScript</option>
-                    <option htmlFor="language" value="py">Python</option>
-                    <option htmlFor="language" value="java">Java</option>
-                    <option htmlFor="language" value="cpp">C++</option>
-                </select>
-                <Grid container style={gridStyle.Grid}>
-                    <Grid item xs sm>
-                        <Editor
-                            value={this.state.code}
-                            onValueChange={this.onValueChange}
-                            highlight={this.highlight}
-                            padding={20}
-                            style={styles.root}
-                        />
-                        <br />
-                        <Button variant="contained" onClick={this.onOutputChange}>Execute</Button>
+        if (this.state.back) {
+            return <CodePage />;
+        } else {
+            return (
+                <div>
+                    <Heading />
+                    {/* TODO - Syntax Highlighting */}
+                    <select onChange={this.onLanguageChange} value={this.state.language}>
+                        <option htmlFor="language">C</option>
+                        <option htmlFor="language">CPP</option>
+                        <option htmlFor="language">PYTHON3</option>
+                        <option htmlFor="language">JAVA</option>
+                        <option htmlFor="language">JAVASCRIPT_NODE</option>
+                    </select>
+                    <Grid container style={gridStyle.Grid}>
+                        <Grid item xs sm>
+                            <Editor
+                                value={this.state.code}
+                                onValueChange={this.onValueChange}
+                                highlight={this.highlight}
+                                padding={20}
+                                style={styles.root}
+                            />
+                            <br />
+                            <Button variant="contained" onClick={this.onOutputChange}>Execute</Button>
+                        </Grid>
+                        <Grid item xs>
+                            <div style={outputBox}>
+                                {this.state.output}
+                            </div>
+                        </Grid>
                     </Grid>
-                    <Grid item xs>
-                        <div style={outputBox}>
-                            {this.state.output}
-                        </div>
+                    <Grid>
+                        <Grid item xs>
+                            <button className="buttonStyle" onClick={this.handleNav}>Snap Another Code!</button>
+                        </Grid>
                     </Grid>
-                </Grid>
-                <Grid>
-                    <Grid item xs>
-                        <Link to='/addCode'>
-                            <button className="buttonStyle">Snap Another Code!</button>
-                        </Link>  
-                    </Grid>
-                </Grid>
-            </div>
-        );
+                </div>
+            );
+        }
     }
 }
 
