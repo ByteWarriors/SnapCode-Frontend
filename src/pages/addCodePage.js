@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 import Heading from '../components/heading';
 import Button from '../components/button';
+import CodeIDE from './codeIDE';
 
 import '../assets/addCodePage.css';
 import FileImage from '../assets/images/file-image-regular.svg';
@@ -17,6 +18,7 @@ class addCodePage extends Component {
         imgSrc: null,
         imgEntered: false,
         code: undefined,
+        redirect: false,
     }
 
     fileSelectedHandler = (event) => {
@@ -48,13 +50,14 @@ class addCodePage extends Component {
         fd.append('image',this.state.selectedFile);
         //console.log(fd);
         axios.post('https://bytewarriors-snapcode.herokuapp.com/upload-image',fd)
-            .then(res => {
+            .then(async res => {
                 if(res.status === 200) {
                     alert(res.data.OCRtext);
                     console.log(res.data.OCRtext);
                     console.log("Code received");
-                    this.setState({
+                    await this.setState({
                         code: res.data.OCRtext,
+                        redirect: true
                     })
                 }
             })
@@ -76,33 +79,35 @@ class addCodePage extends Component {
     }
 
     render() {
-        return (
-            <div>
-                <Heading />
-                <p className="paraStyle">Drop an image or click to browse</p>
-                
-                <input type="file" name="file" id="file" className="inputfile" onChange={this.fileSelectedHandler}/>
-                {this.state.uploaded ? <img className="imageSelected" src={this.state.imgSrc} alt="selectedImage" /> :<label htmlFor="file"><img src={FileImage} alt="fileimage"></img></label> } 
-                
-                {this.state.uploaded ? 
-                <>
-                    <Button name="Crop Image"></Button>
-                    <Link to="/codeIDE">
-                        <Button name="Upload" click={this.fileUploadHandler}></Button>
-                    </Link>
+        if(this.state.redirect) {
+            return <CodeIDE code={this.state.code} />
+        } else {
+            return (
+                <div>
+                    <Heading />
+                    <p className="paraStyle">Drop an image or click to browse</p>
                     
-                    {this.state.imgEntered ? <p className="displayImgName"> {this.state.selectedFile.name} </p> : null }
-                </>
-                : 
-                // <>
-                //     <label className="labelStyle">Or enter the image URL: </label>
-                //     <input className="inputStyle" type="text" onChange={this.handleUrl}></input>           
-                //     <Button name="Submit URL" click={this.handleURLSubmit}></Button>
-                // </>
-                null
-                }
-            </div>
-        )
+                    <input type="file" name="file" id="file" className="inputfile" onChange={this.fileSelectedHandler}/>
+                    {this.state.uploaded ? <img className="imageSelected" src={this.state.imgSrc} alt="selectedImage" /> :<label htmlFor="file"><img src={FileImage} alt="fileimage"></img></label> } 
+                    
+                    {this.state.uploaded ? 
+                    <>
+                        <Button name="Crop Image"></Button>
+                        <Button name="Upload" click={this.fileUploadHandler}></Button>
+                        
+                        {this.state.imgEntered ? <p className="displayImgName"> {this.state.selectedFile.name} </p> : null }
+                    </>
+                    : 
+                    // <>
+                    //     <label className="labelStyle">Or enter the image URL: </label>
+                    //     <input className="inputStyle" type="text" onChange={this.handleUrl}></input>           
+                    //     <Button name="Submit URL" click={this.handleURLSubmit}></Button>
+                    // </>
+                    null
+                    }
+                </div>
+            )
+        }
     }
 }
 

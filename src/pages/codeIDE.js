@@ -7,6 +7,7 @@ import theme from 'prism-react-renderer/themes/nightOwl';
 import { Link } from 'react-router-dom';
 import '../prism.css';
 
+import CodePage from './addCodePage';
 import Heading from '../components/heading';
 import axios from 'axios';
 
@@ -32,7 +33,7 @@ const outputBox = {
     height: '59.8vh',
 };
 
-const code = `
+const code1 = `
     Hindude L stdio.h
     int main () 2
     int a5;
@@ -43,11 +44,16 @@ const code = `
 
 export class codeIDE extends Component {
 
-    state = {
-        code: code,
-        language: 'C',
-        output: ''
-    };
+    constructor(props){
+        super(props);
+        console.log(this.props);
+        this.state = {
+            code: this.props.code,
+            language: 'C',
+            output: '',
+            back: false
+        };
+    }
     
     onValueChange = code => {
         this.setState({ code });
@@ -56,6 +62,12 @@ export class codeIDE extends Component {
     onLanguageChange = e => {
         this.setState({ language: e.target.value });
     };
+
+    handleNav = () => {
+        this.setState({
+            back:true
+        })
+    }
 
     onOutputChange = () => {
         console.log(this.state.code);
@@ -67,14 +79,16 @@ export class codeIDE extends Component {
             },
         })
         .then(res => {
+            console.log("x",res.data)
             if(res.status === 200) {
                 this.setState({
                     output: res.data.output
                 })
-            }
-        })
-        .catch(err => {
-            alert(err)
+            } else if(res.status === 201) {
+                this.setState({
+                    output: res.data.compile_status
+                })
+            } 
         })
     };
 
@@ -92,42 +106,44 @@ export class codeIDE extends Component {
         </Highlight>
     );
     render() {
-        return (
-            <div>
-                <Heading />
-                <select onChange={this.onLanguageChange} value={this.state.language}>
-                    <option htmlFor="language">C</option>
-                    <option htmlFor="language">CPP</option>
-                    <option htmlFor="language">PYTHON3</option>
-                    <option htmlFor="language">JAVA</option>
-                    <option htmlFor="language">JAVASCRIPT_NODE</option>
-                </select>
-                <Grid container style={style.Grid}>
-                    <Grid item xs>
-                        <Editor
-                            value={this.state.code}
-                            onValueChange={this.onValueChange}
-                            highlight={this.highlight}
-                            padding={10}
-                            style={styles.root}
-                        />
-                        <button onClick={this.onOutputChange}>Execute!</button>
+        if(this.state.back){
+            return <CodePage />
+        } else {
+            return (
+                <div>
+                    <Heading />
+                    <select onChange={this.onLanguageChange} value={this.state.language}>
+                        <option htmlFor="language">C</option>
+                        <option htmlFor="language">CPP</option>
+                        <option htmlFor="language">PYTHON3</option>
+                        <option htmlFor="language">JAVA</option>
+                        <option htmlFor="language">JAVASCRIPT_NODE</option>
+                    </select>
+                    <Grid container style={style.Grid}>
+                        <Grid item xs>
+                            <Editor
+                                value={this.state.code}
+                                onValueChange={this.onValueChange}
+                                highlight={this.highlight}
+                                padding={10}
+                                style={styles.root}
+                            />
+                            <button onClick={this.onOutputChange}>Execute!</button>
+                        </Grid>
+                        <Grid item xs>
+                            <div style={outputBox}>
+                                {this.state.output} 
+                            </div>
+                        </Grid>
                     </Grid>
-                    <Grid item xs>
-                        <div style={outputBox}>
-                            {this.state.output} 
-                        </div>
-                    </Grid>
-                </Grid>
-                <Grid>
-                    <Link to='/addCode'>
-                        <button>
+                    <Grid>
+                        <button onClick={this.handleNav}>
                             Snap Another Code
                         </button>
-                    </Link>
-                </Grid>
-            </div>
-        );
+                    </Grid>
+                </div>
+            );
+        }
     }
 }
 
